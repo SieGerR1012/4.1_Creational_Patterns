@@ -1,4 +1,5 @@
 import java.util.OptionalInt;
+import java.util.Objects;
 
 public class Person {
     // Имя и фамилия после создания меняться не должны
@@ -46,5 +47,67 @@ public class Person {
 
     public String getAddress() {
         return address;
+    }
+
+    // Возможность изменения адреса
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    // День рождения увеличивает возраст на 1 год
+    public void happyBirthday() {
+        if (hasAge()) {
+            age++;
+        }
+    }
+
+
+    // Создание билдера для ребенк
+    public PersonBuilder newChildBuilder() {
+
+        PersonBuilder builder = new PersonBuilder()
+                .setSurname(surname);
+
+        if (hasAddress()) {
+            builder.setAddress(address);
+        }
+
+        if (hasAge()) {
+            builder.setAge(Math.max(0, age - 20));
+        }
+
+        return builder;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(name)
+                .append(" ")
+                .append(surname);
+
+        if (hasAge()) {
+            sb.append(", возраст: ")
+                    .append(age);
+        }
+
+        if (hasAddress()) {
+            sb.append(", живет в городе ")
+                    .append(address);
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                name,
+                surname,
+                age,
+                address
+        );
     }
 }
